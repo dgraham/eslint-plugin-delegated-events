@@ -1,0 +1,24 @@
+{
+  "name": "eslint-plugin-delegated-events",
+  "version": "0.0.0",
+  "description": "Disallow delegating high-frequency events.",
+  "repository": "dgraham/eslint-plugin-delegated-events",
+  "license": "MIT",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "author": "David Graham",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/*.js"
+  },
+  "peerDependencies": {
+    "eslint": ">=2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.3.0",
+    "mocha": "^2.4.5"
+  }
+}
