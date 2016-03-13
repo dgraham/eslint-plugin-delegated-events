@@ -8,43 +8,85 @@ var error = 'High-frequency delegated events are not allowed'
 var ruleTester = new RuleTester()
 ruleTester.run('no-high-freq', rule, {
   valid: [
-    'on("click", "button", function(){})',
-    'on("change", "button", function(){})',
-    'on("drop", "button", function(){})'
+    {
+      code: 'on("click", "div", function(){})',
+      parserOptions: {sourceType: 'script'}
+    },
+    {
+      code: 'on("input", "div", function(){})',
+      parserOptions: {sourceType: 'script'}
+    },
+    {
+      code: 'on("input", "div", function(){})',
+      parserOptions: {sourceType: 'module'}
+    },
+    {
+      code: 'import {on} from "delegated-events"; on("click", "div", function(){})',
+      parserOptions: {sourceType: 'module'}
+    },
+    {
+      code: 'import {on as alias} from "delegated-events"; alias("click", "div", function(){})',
+      parserOptions: {sourceType: 'module'}
+    },
+    {
+      code: 'import * as events from "delegated-events"; events.on("click", "div", function(){})',
+      parserOptions: {sourceType: 'module'}
+    },
+    {
+      code: 'import {on} from "not-delegated-events"; on("input", "div", function(){})',
+      parserOptions: {sourceType: 'module'}
+    }
   ],
-
   invalid: [
     {
-      code: 'on("input", "div", function(event){})',
+      code: 'import {on as alias} from "delegated-events"; alias("input", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
       errors: [{message: error, type: 'CallExpression'}]
     },
     {
-      code: 'on("keydown", "div", function(event){})',
+      code: 'import * as events from "delegated-events"; events.on("input", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
       errors: [{message: error, type: 'CallExpression'}]
     },
     {
-      code: 'on("keypress", "div", function(event){})',
+      code: 'import {on} from "delegated-events"; on("input", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
       errors: [{message: error, type: 'CallExpression'}]
     },
     {
-      code: 'on("keyup", "div", function(event){})',
+      code: 'import {on} from "delegated-events"; on("keydown", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
       errors: [{message: error, type: 'CallExpression'}]
     },
     {
-      code: 'on("mouseout", "div", function(event){})',
+      code: 'import {on} from "delegated-events"; on("keypress", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
       errors: [{message: error, type: 'CallExpression'}]
     },
     {
-      code: 'on("mouseover", "div", function(event){})',
+      code: 'import {on} from "delegated-events"; on("keyup", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
       errors: [{message: error, type: 'CallExpression'}]
     },
     {
-      code: 'on("mousemove", "div", function(event){})',
+      code: 'import {on} from "delegated-events"; on("mouseout", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
       errors: [{message: error, type: 'CallExpression'}]
     },
     {
-      code: 'on("scroll", "div", function(event){})',
+      code: 'import {on} from "delegated-events"; on("mouseover", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
       errors: [{message: error, type: 'CallExpression'}]
     },
+    {
+      code: 'import {on} from "delegated-events"; on("mousemove", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
+      errors: [{message: error, type: 'CallExpression'}]
+    },
+    {
+      code: 'import {on} from "delegated-events"; on("scroll", "div", function(event){})',
+      parserOptions: {sourceType: 'module'},
+      errors: [{message: error, type: 'CallExpression'}]
+    }
   ]
 })
