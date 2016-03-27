@@ -7,8 +7,8 @@ module.exports = function(context) {
     ImportDeclaration: function(node) {
       if (node.source.value !== 'delegated-events') return
 
-      node.specifiers.forEach(spec => {
-        switch(spec.type) {
+      for (let spec of node.specifiers) {
+        switch (spec.type) {
           case 'ImportSpecifier':
             if (spec.imported.name === 'on') {
               bindings.push(callee => {
@@ -25,7 +25,7 @@ module.exports = function(context) {
             })
             break
         }
-      })
+      }
     },
     CallExpression: function(node) {
       if (!bindings.some(fn => fn(node.callee))) return
