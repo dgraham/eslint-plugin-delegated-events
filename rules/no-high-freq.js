@@ -29,6 +29,7 @@ module.exports = function(context) {
     },
     CallExpression: function(node) {
       if (!bindings.some(fn => fn(node.callee))) return
+      if (!node.arguments[0]) return
 
       switch (node.arguments[0].value) {
         case 'input':
