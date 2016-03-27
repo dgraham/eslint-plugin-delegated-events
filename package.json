@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-delegated-events",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Disallow delegating high-frequency events.",
   "repository": "dgraham/eslint-plugin-delegated-events",
   "license": "MIT",
