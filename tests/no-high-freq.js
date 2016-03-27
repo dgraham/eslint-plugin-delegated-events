@@ -1,11 +1,11 @@
 'use strict';
 
-var rule = require('../rules/no-high-freq')
-var RuleTester = require('eslint').RuleTester
+const rule = require('../rules/no-high-freq')
+const RuleTester = require('eslint').RuleTester
 
-var error = 'High-frequency delegated events are not allowed'
+const error = 'High-frequency delegated events are not allowed'
 
-var ruleTester = new RuleTester()
+const ruleTester = new RuleTester()
 ruleTester.run('no-high-freq', rule, {
   valid: [
     {
