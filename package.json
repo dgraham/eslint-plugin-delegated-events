@@ -18,7 +18,7 @@
     "eslint": ">=2.3.0"
   },
   "devDependencies": {
-    "eslint": "^2.3.0",
+    "eslint": "^2.7.0",
     "mocha": "^2.4.5"
   }
 }
