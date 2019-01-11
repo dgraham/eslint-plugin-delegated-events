@@ -1,35 +1,13 @@
 'use strict'
 
+const utils = require('./utils.js')
+
 module.exports = function(context) {
   const bindings = []
 
   return {
     ImportDeclaration: function(node) {
-      if (node.source.value !== 'delegated-events') return
-
-      for (const spec of node.specifiers) {
-        switch (spec.type) {
-          case 'ImportSpecifier':
-            if (spec.imported.name === 'on') {
-              bindings.push(callee => {
-                return (
-                  callee.type === 'Identifier' &&
-                  callee.name === spec.local.name
-                )
-              })
-            }
-            break
-          case 'ImportNamespaceSpecifier':
-            bindings.push(callee => {
-              return (
-                callee.type === 'MemberExpression' &&
-                callee.object.name === spec.local.name &&
-                callee.property.name === 'on'
-              )
-            })
-            break
-        }
-      }
+      bindings.push(...utils.bindings(node))
     },
     CallExpression: function(node) {
       if (!bindings.some(fn => fn(node.callee))) return
