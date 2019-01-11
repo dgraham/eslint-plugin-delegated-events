@@ -1,36 +1,35 @@
 'use strict'
 
-function bindings(node) {
-  const found = []
+// Returns a list of predicate functions that determine if a CallExpression
+// is calling into a member of the imported module.
+//
+//   const imports = specifiers(importNode, 'd3-time-format', 'timeFormat')
+//   const isD3 = imports.some(isTimeFormat => isTimeFormat(callExprNode))
+function specifiers(node, module, member) {
+  return node.source.value === module
+    ? node.specifiers.map(spec => isMember(spec, member))
+    : []
+}
 
-  if (node.source.value !== 'delegated-events') {
-    return found
-  }
-
-  for (const spec of node.specifiers) {
+function isMember(spec, member) {
+  return function(callee) {
     switch (spec.type) {
       case 'ImportSpecifier':
-        if (spec.imported.name === 'on') {
-          found.push(
-            callee =>
-              callee.type === 'Identifier' && callee.name === spec.local.name
-          )
-        }
-        break
-      case 'ImportNamespaceSpecifier':
-        found.push(
-          callee =>
-            callee.type === 'MemberExpression' &&
-            callee.object.name === spec.local.name &&
-            callee.property.name === 'on'
+        return (
+          spec.imported.name === member &&
+          callee.type === 'Identifier' &&
+          callee.name === spec.local.name
         )
-        break
+      case 'ImportNamespaceSpecifier':
+        return (
+          callee.type === 'MemberExpression' &&
+          callee.object.name === spec.local.name &&
+          callee.property.name === member
+        )
     }
   }
-
-  return found
 }
 
 module.exports = {
-  bindings
+  specifiers
 }

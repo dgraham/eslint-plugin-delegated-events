@@ -1,18 +1,18 @@
 'use strict'
 
-const utils = require('./utils.js')
+const {specifiers} = require('./utils.js')
 
 const allowed = ['ExpressionStatement', 'Program']
 
 module.exports = function(context) {
-  const bindings = []
+  const imports = []
 
   return {
     ImportDeclaration: function(node) {
-      bindings.push(...utils.bindings(node))
+      imports.push(...specifiers(node, 'delegated-events', 'on'))
     },
     CallExpression: function(node) {
-      if (!bindings.some(fn => fn(node.callee))) return
+      if (!imports.some(isOn => isOn(node.callee))) return
 
       const pass = context
         .getAncestors()

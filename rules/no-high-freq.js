@@ -1,16 +1,16 @@
 'use strict'
 
-const utils = require('./utils.js')
+const {specifiers} = require('./utils.js')
 
 module.exports = function(context) {
-  const bindings = []
+  const imports = []
 
   return {
     ImportDeclaration: function(node) {
-      bindings.push(...utils.bindings(node))
+      imports.push(...specifiers(node, 'delegated-events', 'on'))
     },
     CallExpression: function(node) {
-      if (!bindings.some(fn => fn(node.callee))) return
+      if (!imports.some(isOn => isOn(node.callee))) return
       if (!node.arguments[0]) return
 
       switch (node.arguments[0].value) {
