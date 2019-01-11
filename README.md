@@ -29,6 +29,13 @@ This lint rule disallows delegated event listeners on the following events:
 - mousemove
 - scroll
 
+# Top level listener registration
+
+Registering a delegated event listener by calling `on` in a conditional branch,
+loop, or function can result in duplicate registrations and invoking the
+listener multiple times. The `global-on` lint rule requires `on` to be called
+only in the top level module scope.
+
 ## Installation
 
 You'll first need to install [ESLint](http://eslint.org):
@@ -55,6 +62,7 @@ Add `delegated-events` to the plugins section of your `.eslintrc` configuration 
     "delegated-events"
   ],
   "rules": {
+    "delegated-events/global-on": 2,
     "delegated-events/no-high-freq": 2
   }
 }
