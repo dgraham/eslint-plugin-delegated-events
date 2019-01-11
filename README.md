@@ -29,7 +29,7 @@ This lint rule disallows delegated event listeners on the following events:
 - mousemove
 - scroll
 
-# Top level listener registration
+## Top level listener registration
 
 Registering a delegated event listener by calling `on` in a conditional branch,
 loop, or function can result in duplicate registrations and invoking the
