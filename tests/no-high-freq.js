@@ -5,7 +5,7 @@ const RuleTester = require('eslint').RuleTester
 
 const error = 'High-frequency delegated events are not allowed'
 
-const ruleTester = new RuleTester()
+const ruleTester = new RuleTester({parserOptions: {ecmaVersion: 6}})
 ruleTester.run('no-high-freq', rule, {
   valid: [
     {

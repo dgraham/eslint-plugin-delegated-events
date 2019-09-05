@@ -5,7 +5,7 @@ const RuleTester = require('eslint').RuleTester
 
 const error = 'Delegated listeners must be registered in the top level scope'
 
-const ruleTester = new RuleTester()
+const ruleTester = new RuleTester({parserOptions: {ecmaVersion: 6}})
 ruleTester.run('global-on', rule, {
   valid: [
     {
