@@ -12,7 +12,7 @@ function specifiers(node, module, member) {
 }
 
 function isMember(spec, member) {
-  return function(callee) {
+  return function (callee) {
     switch (spec.type) {
       case 'ImportSpecifier':
         return (

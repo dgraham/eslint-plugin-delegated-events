@@ -2,14 +2,14 @@
 
 const {specifiers} = require('./utils.js')
 
-module.exports = function(context) {
+module.exports = function (context) {
   const imports = []
 
   return {
-    ImportDeclaration: function(node) {
+    ImportDeclaration: function (node) {
       imports.push(...specifiers(node, 'delegated-events', 'on'))
     },
-    CallExpression: function(node) {
+    CallExpression: function (node) {
       if (!imports.some(isOn => isOn(node.callee))) return
       if (!node.arguments[0]) return
 

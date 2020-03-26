@@ -4,14 +4,14 @@ const {specifiers} = require('./utils.js')
 
 const allowed = ['ExpressionStatement', 'Program']
 
-module.exports = function(context) {
+module.exports = function (context) {
   const imports = []
 
   return {
-    ImportDeclaration: function(node) {
+    ImportDeclaration: function (node) {
       imports.push(...specifiers(node, 'delegated-events', 'on'))
     },
-    CallExpression: function(node) {
+    CallExpression: function (node) {
       if (!imports.some(isOn => isOn(node.callee))) return
 
       const pass = context
